@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\Response;
+namespace App\Api\Response\Shop;
 
 class Product
 {

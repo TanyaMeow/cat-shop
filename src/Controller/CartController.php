@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Api\Request\Cart\AddProduct;
+use App\Api\Response\Cart\ProductsCount;
 use App\Entity\CartProduct;
 use App\Repository\CartProductRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,6 +46,32 @@ class CartController extends AbstractController
         }
 
         $entityManager->flush();
+
+        return new Response();
+    }
+
+    #[Route(path: '/api/cart/count', methods: [Request::METHOD_GET])]
+    public function getProductsCount(CartProductRepository $cartProductRepository): Response
+    {
+        $productsCount = $cartProductRepository->getProductsCount();
+
+        return new JsonResponse(
+            new ProductsCount($productsCount)
+        );
+    }
+
+    #[Route(path: '/api/cart/{productId}', requirements: ['page' => '\d+'], methods: [Request::METHOD_DELETE])]
+    public function removeProduct(
+        int $productId,
+        CartProductRepository $cartProductRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $cartProduct = $cartProductRepository->findOneBy(['productId' => $productId]);
+
+        if (null !== $cartProduct) {
+            $entityManager->remove($cartProduct);
+            $entityManager->flush();
+        }
 
         return new Response();
     }

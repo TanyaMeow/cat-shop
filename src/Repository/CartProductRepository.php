@@ -12,4 +12,19 @@ class CartProductRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, CartProduct::class);
     }
+
+    public function getProductsCount(): int
+    {
+        $qb = $this->_em->createQueryBuilder();
+
+        $qb
+            ->select($qb->expr()->count('cartProduct.id'))
+            ->from(CartProduct::class, 'cartProduct');
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        return $qb
+                ->getQuery()
+                ->setMaxResults(1)
+                ->getSingleScalarResult();
+    }
 }

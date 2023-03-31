@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Api\Response\Product;
+use App\Api\Response\Shop\Product;
 use App\Entity\Product as ProductEntity;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Attribute\Template;
