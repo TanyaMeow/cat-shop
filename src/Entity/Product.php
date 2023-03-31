@@ -27,4 +27,24 @@ class Product
         $this->price = $price;
         $this->image = $image;
     }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getPrice(): int
+    {
+        return $this->price;
+    }
+
+    public function getImage(): string
+    {
+        return $this->image;
+    }
 }
