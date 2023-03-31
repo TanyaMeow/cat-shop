@@ -18,6 +18,6 @@ class Product
     #[ORM\Column]
     private int $price;
 
-    #[ORM\Column(name: 'image_url')]
-    private string $imageUrl;
+    #[ORM\Column(name: 'image')]
+    private string $image;
 }
