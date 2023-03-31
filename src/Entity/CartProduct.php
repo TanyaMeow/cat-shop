@@ -33,4 +33,14 @@ class CartProduct
     {
         $this->count = $count;
     }
+
+    public function getCount(): int
+    {
+        return $this->count;
+    }
+
+    public function getProduct(): Product
+    {
+        return $this->product;
+    }
 }
