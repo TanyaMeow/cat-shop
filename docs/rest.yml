@@ -1,0 +1,51 @@
+openapi: 3.0.0
+
+info: 
+    title: Спецификация REST API магазина
+    version: 0.0.1
+    
+paths:
+    /api/cart:
+        put:
+            summary: Добавление товара в коризну или обновление его кол-ва
+            requestBody: 
+                content: 
+                    application/json:
+                        schema: 
+                            type: object
+                            properties:
+                                product_id:
+                                    type: integer
+                                count:
+                                    type: integer
+            responses: 
+                "200":
+                    description: "OK"
+                "400":
+                    description: "Товар не существует либо параметры некорректны"
+    /api/cart/count:
+        get:
+            summary: Кол-во уникальных товаров в корзине
+            responses: 
+                "200":
+                    description: "OK"
+                    content: 
+                        application/json:
+                            schema: 
+                                type: object
+                                properties: 
+                                    count:
+                                        type: integer
+    /api/cart/{productId}:
+        delete: 
+            summary: Удаление товара из корзины
+            parameters:
+                - name: productId
+                  in: path
+                  required: true
+                  schema: 
+                      type: integer
+            responses: 
+                "200":
+                    description: "OK"
+    
