@@ -27,4 +27,24 @@ class CartProductRepository extends ServiceEntityRepository
                 ->setMaxResults(1)
                 ->getSingleScalarResult();
     }
+
+    public function getTotalPrice(): int
+    {
+        $qb = $this->createQueryBuilder('cardProduct');
+
+        /** @var CartProduct[] $result */
+        $result = $qb
+            ->addSelect('product')
+            ->innerJoin('cardProduct.product', 'product')
+            ->getQuery()
+            ->getResult();
+
+        $total = 0;
+
+        foreach ($result as $cartProduct) {
+            $total += ($cartProduct->getCount() * $cartProduct->getProduct()->getPrice());
+        }
+
+        return $total;
+    }
 }

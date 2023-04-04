@@ -48,4 +48,17 @@ paths:
             responses: 
                 "200":
                     description: "OK"
+    /api/cart/total:
+        get:
+            summary: Итоговая сумма товаров в корзине
+            responses:
+                "200":
+                    description: "OK"
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    total:
+                                        type: integer
     

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Api\Request\Cart\AddProduct;
 use App\Api\Response\Cart\ProductsCount;
 use App\Api\Response\Cart\CartProduct;
+use App\Api\Response\Cart\TotalPrice;
 use App\Entity\CartProduct as CartProductEntity;
 use App\Repository\CartProductRepository;
 use App\Repository\ProductRepository;
@@ -99,5 +100,13 @@ class CartController extends AbstractController
         }
 
         return new Response();
+    }
+
+    #[Route(path: '/api/cart/total', methods: [Request::METHOD_GET])]
+    public function getTotalPrice(CartProductRepository $cartProductRepository): Response
+    {
+        return new JsonResponse(
+            new TotalPrice($cartProductRepository->getTotalPrice())
+        );
     }
 }
