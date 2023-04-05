@@ -14,20 +14,29 @@ use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use WS\Utils\Collections\CollectionFactory;
 
 class CartController extends AbstractController
 {
+    private SessionInterface $session;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->session = $requestStack->getSession();
+    }
+
     #[Route('/cart')]
     #[Template('cart/index.html.twig')]
     public function index(CartProductRepository $cartProductRepository): array
     {
         return [
             'products' => CollectionFactory::fromIterable(
-                $cartProductRepository->findAll()
+                $cartProductRepository->findBy(['guestId' => $this->session->get('guest-id')])
             )
                 ->stream()
                 ->map(function (CartProductEntity $product) {
@@ -58,7 +67,10 @@ class CartController extends AbstractController
         }
 
         /** @var CartProductEntity $cartProduct */
-        $cartProduct = $cartProductRepository->findOneBy(['productId' => $request->product_id]);
+        $cartProduct = $cartProductRepository->findOneBy([
+            'productId' => $request->product_id,
+            'guestId' => $this->session->get('guest-id')
+        ]);
 
         if ($cartProduct) {
             $cartProduct->setCount($request->count);
@@ -66,7 +78,8 @@ class CartController extends AbstractController
             $entityManager->persist(
                 new CartProductEntity(
                     count: $request->count,
-                    product: $productRepository->find($request->product_id)
+                    product: $productRepository->find($request->product_id),
+                    guestId: $this->session->get('guest-id'),
                 )
             );
         }
@@ -79,7 +92,7 @@ class CartController extends AbstractController
     #[Route(path: '/api/cart/count', methods: [Request::METHOD_GET])]
     public function getProductsCount(CartProductRepository $cartProductRepository): Response
     {
-        $productsCount = $cartProductRepository->getProductsCount();
+        $productsCount = $cartProductRepository->getProductsCount($this->session->get('guest-id'));
 
         return new JsonResponse(
             new ProductsCount($productsCount)
@@ -92,7 +105,10 @@ class CartController extends AbstractController
         CartProductRepository $cartProductRepository,
         EntityManagerInterface $entityManager
     ): Response {
-        $cartProduct = $cartProductRepository->findOneBy(['productId' => $productId]);
+        $cartProduct = $cartProductRepository->findOneBy([
+            'productId' => $productId,
+            'guestId' => $this->session->get('guest-id')
+        ]);
 
         if (null !== $cartProduct) {
             $entityManager->remove($cartProduct);
@@ -106,7 +122,7 @@ class CartController extends AbstractController
     public function getTotalPrice(CartProductRepository $cartProductRepository): Response
     {
         return new JsonResponse(
-            new TotalPrice($cartProductRepository->getTotalPrice())
+            new TotalPrice($cartProductRepository->getTotalPrice($this->session->get('guest-id')))
         );
     }
 }

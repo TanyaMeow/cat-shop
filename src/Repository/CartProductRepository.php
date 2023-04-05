@@ -14,22 +14,24 @@ class CartProductRepository extends ServiceEntityRepository
         parent::__construct($registry, CartProduct::class);
     }
 
-    public function getProductsCount(): int
+    public function getProductsCount(string $guestId): int
     {
-        $result = $this->findAll();
+        $result = $this->findBy(['guestId' => $guestId]);
 
         return CollectionFactory::from($result)
             ->stream()
-            ->reduce(fn(CartProduct $el, ?int $carry = 0) => $carry + $el->getCount());
+            ->reduce(fn(CartProduct $el, ?int $carry = 0) => $carry + $el->getCount()) ?? 0;
     }
 
-    public function getTotalPrice(): int
+    public function getTotalPrice(string $guestId): int
     {
         $qb = $this->createQueryBuilder('cp');
 
         $qb
             ->addSelect('p')
-            ->innerJoin('cp.product', 'p');
+            ->innerJoin('cp.product', 'p')
+            ->where('cp.guestId = :guestId')
+            ->setParameter('guestId', $guestId);
 
         $result = $qb
             ->getQuery()
@@ -39,6 +41,6 @@ class CartProductRepository extends ServiceEntityRepository
             ->stream()
             ->reduce(
                 fn(CartProduct $el, ?int $carry = 0) => $carry + ($el->getCount() * $el->getProduct()->getPrice())
-            );
+            ) ?? 0;
     }
 }

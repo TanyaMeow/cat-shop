@@ -19,14 +19,18 @@ class CartProduct
     #[ORM\Column(name: 'product_id')]
     private int $productId;
 
-    #[ORM\OneToOne(targetEntity: Product::class)]
+    #[ORM\ManyToOne(targetEntity: Product::class)]
     #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id')]
     private Product $product;
 
-    public function __construct(int $count, Product $product)
+    #[ORM\Column]
+    private string $guestId;
+
+    public function __construct(int $count, Product $product, string $guestId)
     {
         $this->count = $count;
         $this->product = $product;
+        $this->guestId = $guestId;
     }
 
     public function setCount(int $count): void
