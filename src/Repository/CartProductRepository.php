@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\CartProduct;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use WS\Utils\Collections\CollectionFactory;
 
 class CartProductRepository extends ServiceEntityRepository
 {
@@ -15,36 +16,29 @@ class CartProductRepository extends ServiceEntityRepository
 
     public function getProductsCount(): int
     {
-        $qb = $this->_em->createQueryBuilder();
+        $result = $this->findAll();
 
-        $qb
-            ->select($qb->expr()->count('cartProduct.id'))
-            ->from(CartProduct::class, 'cartProduct');
-
-        /** @noinspection PhpUnhandledExceptionInspection */
-        return $qb
-                ->getQuery()
-                ->setMaxResults(1)
-                ->getSingleScalarResult();
+        return CollectionFactory::from($result)
+            ->stream()
+            ->reduce(fn(CartProduct $el, ?int $carry = 0) => $carry + $el->getCount());
     }
 
     public function getTotalPrice(): int
     {
-        $qb = $this->createQueryBuilder('cardProduct');
+        $qb = $this->createQueryBuilder('cp');
 
-        /** @var CartProduct[] $result */
+        $qb
+            ->addSelect('p')
+            ->innerJoin('cp.product', 'p');
+
         $result = $qb
-            ->addSelect('product')
-            ->innerJoin('cardProduct.product', 'product')
             ->getQuery()
             ->getResult();
 
-        $total = 0;
-
-        foreach ($result as $cartProduct) {
-            $total += ($cartProduct->getCount() * $cartProduct->getProduct()->getPrice());
-        }
-
-        return $total;
+        return CollectionFactory::from($result)
+            ->stream()
+            ->reduce(
+                fn(CartProduct $el, ?int $carry = 0) => $carry + ($el->getCount() * $el->getProduct()->getPrice())
+            );
     }
 }

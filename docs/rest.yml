@@ -25,7 +25,7 @@ paths:
                     description: "Товар не существует либо параметры некорректны"
     /api/cart/count:
         get:
-            summary: Кол-во уникальных товаров в корзине
+            summary: Кол-во товаров в корзине
             responses: 
                 "200":
                     description: "OK"
