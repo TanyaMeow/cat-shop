@@ -12,7 +12,7 @@ use WS\Utils\Collections\CollectionFactory;
 
 class ShopController extends AbstractController
 {
-    #[Route('/')]
+    #[Route('/shop')]
     #[Template('shop/index.html.twig')]
     public function index(ProductRepository $productRepository): array
     {
