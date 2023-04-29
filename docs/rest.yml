@@ -48,4 +48,60 @@ paths:
             responses: 
                 "200":
                     description: "OK"
-    
+    /api/products:
+        get:
+            summary: Получение списка продуктов
+            responses: 
+                "200":
+                    description: "OK"
+                    content:
+                        application/json:
+                            schema: 
+                                type: object
+                                properties: 
+                                    products:
+                                        type: array
+                                        items: 
+                                            type: object
+                                            properties: 
+                                                id:
+                                                    type: integer
+                                                name:
+                                                    type: string
+                                                price:
+                                                    type: integer
+                                                image_path:
+                                                    type: string
+        post: 
+            summary: Создание нового продукта
+            requestBody: 
+                content:
+                    multipart/form-data:
+                        schema: 
+                            type: object
+                            properties: 
+                                name:
+                                    type: string
+                                price:
+                                    type: integer
+                                image:
+                                    type: string
+                                    format: binary
+            responses: 
+                "200":
+                    description: "OK"
+                "400":
+                    description: "Невалидное тело запроса или возникли ошибки с сохранением изображения"
+    /api/products/{productId}:
+        delete:
+            summary: Удаление продукта
+            parameters:
+                - name: productId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                "200":
+                    description: "OK"
+                                            
