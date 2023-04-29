@@ -85,7 +85,7 @@ class CartController extends AbstractController
         );
     }
 
-    #[Route(path: '/api/cart/{productId}', requirements: ['page' => '\d+'], methods: [Request::METHOD_DELETE])]
+    #[Route(path: '/api/cart/{productId}', requirements: ['productId' => '\d+'], methods: [Request::METHOD_DELETE])]
     public function removeProduct(
         int $productId,
         CartProductRepository $cartProductRepository,
