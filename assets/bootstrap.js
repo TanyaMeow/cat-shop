@@ -1,10 +1,12 @@
 import React, {Component} from "react";
-import HelloWorld from "./components/helloWorld";
+import {ShopPage} from "./pages/shopPage.js";
 import {createRoot} from "react-dom/client";
 
 class App extends Component {
     render() {
-        return (<HelloWorld />)
+        return (
+          <ShopPage />
+        )
     }
 }
 
