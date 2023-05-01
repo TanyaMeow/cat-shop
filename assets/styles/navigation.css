@@ -1,0 +1,29 @@
+.navigation {
+    display: flex;
+    padding-left: 80px;
+    padding-right: 80px;
+    font-family: 'Solway', serif;
+    font-size: 20px;
+}
+
+.nav {
+    padding-right: 62px;
+    text-decoration: none;
+    color: black;
+}
+
+.nav::first-letter {
+    color: #FF0000;
+}
+
+.nav:last-child {
+    padding-right: 0;
+}
+
+.log {
+    display: contents;
+}
+
+.paw {
+    position: absolute;
+}

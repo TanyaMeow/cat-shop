@@ -1,0 +1,10 @@
+.container_header {
+    padding: 15px 0 15px 0;
+    width: 950px;
+}
+
+.block_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
