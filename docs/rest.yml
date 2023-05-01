@@ -25,7 +25,7 @@ paths:
                     description: "Товар не существует либо параметры некорректны"
     /api/cart/count:
         get:
-            summary: Кол-во уникальных товаров в корзине
+            summary: Кол-во товаров в корзине
             responses: 
                 "200":
                     description: "OK"
@@ -48,6 +48,20 @@ paths:
             responses: 
                 "200":
                     description: "OK"
+    /api/cart/total:
+        get:
+            summary: Итоговая сумма товаров в корзине
+            responses:
+                "200":
+                    description: "OK"
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    total:
+                                        type: integer
+    
     /api/products:
         get:
             summary: Получение списка продуктов

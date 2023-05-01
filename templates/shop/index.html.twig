@@ -11,3 +11,77 @@
         {...}
     ]
 #}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href="{{ asset('style/shop.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Philosopher&family=Solway&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>COOLCAT.shop</title>
+</head>
+<body>
+<div class="wrapper">
+
+    <header>
+        <div class="container_header">
+            <div class="block_header">
+
+                <img class="logo" src="{{ asset('logo/logo.svg') }}" alt="">
+
+                <nav class="navigation">
+                    <a class="nav" href="">Home</a>
+                    <a class="nav" href="">
+                        Shop
+                        <div class="log">
+                            <img class="paw" src="{{ asset('logo/paw.svg') }}" alt="">
+                        </div>
+                    </a>
+                    <a class="nav" href="">Contacts</a>
+                    <a class="nav" href="">About us</a>
+
+                </nav>
+
+                <a class="cart">
+                    <img src="{{ asset('logo/CArT (1).svg') }}" alt="">
+                    <div class="popcou">
+                        <img class="pop" src="{{ asset('logo/bump.svg') }}" alt="">
+                        <p class="count">0</p>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </header>
+    <div class="shop_container">
+        <div class="shop_block">
+
+            {% for product in products %}
+
+                <div class="card" data-id="{{ product.id }}">
+                    <img class="img" src="{{ product.image_path }}" alt="">
+                    <h1 class="title">{{ product.name }}</h1>
+
+                    <div class="footer_card">
+
+                        <p class="price">{{ product.price }} ₽</p>
+                        <button class="button">
+                            <img src="{{ asset('logo/button.svg') }}" alt="">
+                        </button>
+
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+</div>
+
+<script src="{{ asset('js/shop.js') }}"></script>
+</body>
+</html>
