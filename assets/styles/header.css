@@ -1,0 +1,31 @@
+.container_header {
+    padding: 15px 0 15px 0;
+    width: 950px;
+}
+
+.block_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.cart {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+}
+
+.bump {
+    display: contents;
+}
+
+.pop {
+    position: absolute;
+    margin-bottom: 35px;
+}
+
+.count {
+    position: absolute;
+    margin: 0;
+    padding: 0 7px 41px 10px;
+}
