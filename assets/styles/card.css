@@ -6,7 +6,7 @@
 }
 
 .shop_block {
-    padding-top: 70px;
+    padding-top: 90px;
     grid-template-columns: repeat(4, 200px);
     display: grid;
     grid-template-rows: repeat(2, 300px);
@@ -34,7 +34,7 @@
     margin: 0;
     font-size: 16px;
     font-weight: 400;
-    padding: 2px 9px 0 14px;
+    padding: 2px 9px 0 8px;
 }
 
 .footer_card {
