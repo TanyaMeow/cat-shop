@@ -1,11 +1,11 @@
 import React, {Component} from "react";
-import {ShopPage} from "./pages/shopPage.js";
+import {ContainerPage} from "./pages/containerPage.js";
 import {createRoot} from "react-dom/client";
 
 class App extends Component {
     render() {
         return (
-          <ShopPage />
+          <ContainerPage />
         )
     }
 }
