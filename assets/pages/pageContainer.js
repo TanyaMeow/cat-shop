@@ -3,18 +3,18 @@ import axios from "axios";
 import {Header} from "../components/header";
 import {ShopPage} from "./shopPage";
 
-export class ContainerPage extends Component {
+export class PageContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      cartProductCount: 0
+      cartProductsCount: 0
     }
   }
 
-  setCartCount(id) {
+  addProductToCart(idProduct) {
     axios.put('/api/cart', {
-      product_id: id,
+      product_id: idProduct,
       count: 1
     })
       .then(() => {
@@ -32,7 +32,7 @@ export class ContainerPage extends Component {
       <div className='wrapper'>
         <Header count={this.state.cartProductCount}/>
 
-        <ShopPage onClickButton={(id) => this.setCartCount(id)}/>
+        <ShopPage onProductAddedToCart={(idProduct) => this.addProductToCart(idProduct)}/>
       </div>
     )
   }

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Navigation} from "./navigation";
-import {PopUp} from "./popUp";
+import {CartCounter} from "./cartCounter";
 
 export class Header extends Component {
     render() {
@@ -13,7 +13,7 @@ export class Header extends Component {
               <Navigation />
 
               <a className='cart'><img src='/logo/CArT (1).svg' alt=''/>
-                {this.props.count > 0 && <PopUp count={this.props.count} />}
+                {this.props.count > 0 && <CartCounter count={this.props.count} />}
               </a>
 
             </div>

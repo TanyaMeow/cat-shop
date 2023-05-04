@@ -1,20 +1,17 @@
-import React, {Component} from "react";
-import {PopUp} from "./popUp";
+import React from "react";
 
-export class ProductCard extends Component {
-  render() {
+export function ProductCard (props) {
     return(
-      <div className="card" data-id={this.props.id}>
-        <img className="img" src={this.props.image_path} alt=""/>
-          <h1 className="title">{this.props.name}</h1>
+      <div className="card">
+        <img className="img" src={props.image_path} alt=""/>
+          <h1 className="title">{props.name}</h1>
 
           <div className="footer_card">
-            <p className="price">{this.props.price} ₽</p>
-            <button className="button" onClick={() => this.props.onClickB(Number(this.props.id))}>
+            <p className="price">{props.price} ₽</p>
+            <button className="button" onClick={() => props.onProductAddToCart(Number(props.id))}>
               <img src="/logo/button.svg" alt=""/>
             </button>
           </div>
       </div>
     )
-  }
 }

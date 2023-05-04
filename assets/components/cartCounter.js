@@ -1,6 +1,6 @@
 import React from "react";
 
-export function PopUp(props) {
+export function CartCounter(props) {
   return(
     <div className="bump">
       <img className="pop" src='/logo/bump.svg' alt=""/>

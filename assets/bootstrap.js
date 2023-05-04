@@ -1,13 +1,11 @@
-import React, {Component} from "react";
-import {ContainerPage} from "./pages/containerPage.js";
+import React from "react";
+import {PageContainer} from "./pages/pageContainer.js";
 import {createRoot} from "react-dom/client";
 
-class App extends Component {
-    render() {
-        return (
-          <ContainerPage />
-        )
-    }
+function App() {
+  return (
+    <PageContainer />
+  )
 }
 
 const root = createRoot(document.querySelector('#root'))

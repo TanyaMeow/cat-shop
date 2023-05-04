@@ -20,7 +20,6 @@ export class ShopPage extends Component {
 
   render() {
     return(
-
         <div className='shop_container'>
           <div className='shop_block'>
             {this.state.products.map(product => (
@@ -29,10 +28,9 @@ export class ShopPage extends Component {
                            name={product.name}
                            price={product.price}
                            key={product.id}
-                           onClickB={this.props.onClickButton}
+                           onProductAddToCart={this.props.onProductAddedToCart}
               />
             ))}
-
           </div>
         </div>
     )
