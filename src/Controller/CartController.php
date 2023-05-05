@@ -52,6 +52,27 @@ class CartController extends AbstractController
         ];
     }
 
+    #[Route(path: '/api/cart', methods: [Request::METHOD_GET])]
+    public function getProducts(CartProductRepository $cartProductRepository): Response
+    {
+        return new JsonResponse([
+            'products' => CollectionFactory::fromIterable(
+                $cartProductRepository->findBy(['guestId' => $this->session->get('guest-id')])
+            )
+                ->stream()
+                ->map(function (CartProductEntity $product) {
+                    return new CartProduct(
+                        id: $product->getProduct()->getId(),
+                        name: $product->getProduct()->getName(),
+                        price: $product->getProduct()->getPrice(),
+                        image_path: '/images/' . $product->getProduct()->getImage(),
+                        count: $product->getCount()
+                    );
+                })
+                ->toArray()
+        ]);
+    }
+
     #[Route(path: '/api/cart', methods: [Request::METHOD_PUT])]
     public function addProduct(
         Request $request,

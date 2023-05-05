@@ -6,6 +6,31 @@ info:
     
 paths:
     /api/cart:
+        get:
+            summary: Получение списка продуктов из корзины
+            responses:
+                "200":
+                    description: "OK"
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    products:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                id:
+                                                    type: integer
+                                                name:
+                                                    type: string
+                                                price:
+                                                    type: integer
+                                                image_path:
+                                                    type: string
+                                                count:
+                                                    type: integer
         put:
             summary: Добавление товара в коризну или обновление его кол-ва
             requestBody: 
