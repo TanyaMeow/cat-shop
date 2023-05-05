@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\CartProduct;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use WS\Utils\Collections\CollectionFactory;
 
 class CartProductRepository extends ServiceEntityRepository
 {
@@ -13,18 +14,33 @@ class CartProductRepository extends ServiceEntityRepository
         parent::__construct($registry, CartProduct::class);
     }
 
-    public function getProductsCount(): int
+    public function getProductsCount(string $guestId): int
     {
-        $qb = $this->_em->createQueryBuilder();
+        $result = $this->findBy(['guestId' => $guestId]);
+
+        return CollectionFactory::from($result)
+            ->stream()
+            ->reduce(fn(CartProduct $el, ?int $carry = 0) => $carry + $el->getCount()) ?? 0;
+    }
+
+    public function getTotalPrice(string $guestId): int
+    {
+        $qb = $this->createQueryBuilder('cp');
 
         $qb
-            ->select($qb->expr()->count('cartProduct.id'))
-            ->from(CartProduct::class, 'cartProduct');
+            ->addSelect('p')
+            ->innerJoin('cp.product', 'p')
+            ->where('cp.guestId = :guestId')
+            ->setParameter('guestId', $guestId);
 
-        /** @noinspection PhpUnhandledExceptionInspection */
-        return $qb
-                ->getQuery()
-                ->setMaxResults(1)
-                ->getSingleScalarResult();
+        $result = $qb
+            ->getQuery()
+            ->getResult();
+
+        return CollectionFactory::from($result)
+            ->stream()
+            ->reduce(
+                fn(CartProduct $el, ?int $carry = 0) => $carry + ($el->getCount() * $el->getProduct()->getPrice())
+            ) ?? 0;
     }
 }
