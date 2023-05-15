@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import axios from "axios";
 import {Header} from "../components/header";
-import {ShopPage} from "./shopPage";
+import {CartPage} from "./CartPage";
+import {ShopPage} from "./ShopPage";
 
 export class PageContainer extends Component {
   constructor(props) {
@@ -27,13 +28,35 @@ export class PageContainer extends Component {
       })
   }
 
+  //onDeleteCallback
+  deleteProductById(productId, functionUpdate) {
+    axios.delete(`/api/cart/${productId}`)
+      .then(() => {
+      axios.get('/api/cart')
+        .then(() => {
+          functionUpdate();
+        })
+    })
+  }
+
+
   render() {
     return(
       <div className='wrapper'>
         <Header count={this.state.cartProductCount}/>
 
-        <ShopPage onProductAddedToCart={(idProduct) => this.addProductToCart(idProduct)}/>
+        <CartPage onDeleteProduct={(productId, functionUpdate) => this.deleteProductById(productId, functionUpdate)}/>
       </div>
     )
   }
+
+  // render() {
+  //   return(
+  //     <div className='wrapper'>
+  //       <Header count={this.state.cartProductCount}/>
+  //
+  //       <ShopPage onProductAddedToCart={(idProduct) => this.addProductToCart(idProduct)}/>
+  //     </div>
+  //   )
+  // }
 }
