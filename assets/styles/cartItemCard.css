@@ -1,0 +1,97 @@
+.card_title {
+    margin: 0;
+    display: flex;
+    font-family: 'Nunito', serif;
+    flex-direction: column;
+}
+
+.card_cart {
+    margin-bottom: 30px;
+    display: flex;
+    overflow: hidden;
+    box-sizing: border-box;
+    background-color: #FFECE8;
+    width: 897px;
+    height: 150px;
+    align-items: center;
+    border: 2px #FFCBBF solid;
+    border-radius: 6px;
+    box-shadow: 0 4px 5px rgb(0 0 0 / 28%);
+}
+
+.image {
+    padding-left: 9px;
+    width: 132px;
+    height: 132px;
+}
+
+.description {
+    padding-left: 12px;
+    margin: 0;
+    font-size: 26px;
+    width: 347px;
+    height: 91px;
+}
+
+.bottom {
+    display: inline-flex;
+}
+
+.price {
+    padding-left: 12px;
+    margin: 0;
+    width: 93px;
+    height: 38px;
+    font-size: 28px;
+    color: #5B1000;
+}
+
+.delete_item {
+    margin-left: 95px;
+    color: #D63300;
+    width: 94px;
+    height: 33px;
+    border: none;
+    background-color: inherit;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.quantity {
+    height: 36px;
+    display: flex;
+    margin-left: 182px;
+    font-family: 'Philosopher', serif;
+}
+
+.amount {
+    padding: 0 45px;
+    margin: 0;
+    font-size: 32px;
+    font-weight: 400;
+}
+
+.minus,
+.plus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FF7144;
+    width: 36px;
+    border: #FF7144;
+    border-radius: 50%;
+}
+
+.min,
+.max {
+    width: 20px;
+    border-bottom: 2px solid #FFD0CD;
+    border-radius: 5px;
+}
+
+.max_end {
+    position: absolute;
+    height: 20px;
+    border-left: 2px solid #FFD0CD;
+    border-radius: 5px;
+}
