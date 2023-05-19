@@ -1,24 +1,26 @@
 import React, {Component} from "react";
+import {useContext} from 'react';
+import {CountContext} from "../Contexts/CountContext";
 import {Navigation} from "./navigation";
 import {CartCounter} from "./cartCounter";
 
-export class Header extends Component {
-    render() {
-      return (
-        <header>
-          <div className='container_header'>
-            <div className='block_header'>
-              <img className='logo' src='/logo/logo.svg' alt=''/>
+export function Header() {
+  const count = useContext(CountContext);
 
-              <Navigation />
+  return (
+    <header>
+      <div className='container_header'>
+        <div className='block_header'>
+          <img className='logo' src='/logo/logo.svg' alt=''/>
 
-              <a className='cart'><img src='/logo/CArT (1).svg' alt=''/>
-                {this.props.count > 0 && <CartCounter count={this.props.count} />}
-              </a>
+          <Navigation/>
 
-            </div>
-          </div>
-        </header>
-      )
-    }
+          <a className='cart'><img src='/logo/CArT (1).svg' alt=''/>
+            {count > 0 && <CartCounter count={count}/>}
+          </a>
+
+        </div>
+      </div>
+    </header>
+  )
 }

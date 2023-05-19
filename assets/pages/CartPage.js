@@ -14,10 +14,6 @@ export class CartPage extends Component {
       .then(response => {
         this.setState(response.data);
       })
-    axios.get('/api/cart/count')
-      .then(response => {
-        this.setState(response.data);
-      })
   }
 
   componentDidMount() {
@@ -30,7 +26,6 @@ export class CartPage extends Component {
     this.state = {
       products: [],
       total: 0,
-      count: 0
     };
   }
 
@@ -40,7 +35,7 @@ export class CartPage extends Component {
         <div className="cart_block">
           <div className="cart_frame">
 
-            <CartTitle count={this.state.count}/>
+            <CartTitle />
 
             {this.state.products.map(product => (
               <ProductInCart id={product.id}
@@ -49,7 +44,6 @@ export class CartPage extends Component {
                              price={product.price}
                              count={product.count}
                              key={product.id}
-                             onDeleteProduct={this.props.onDeleteProduct}
                              functionUpdate={() => this.cartValues()}
               />
               ))}

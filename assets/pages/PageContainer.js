@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
+import {CountContext} from '../Contexts/CountContext.js';
+import {DeleteContext} from '../Contexts/DeleteContext.js';
 import {Header} from "../components/header";
 import {CartPage} from "./CartPage";
 import {ShopPage} from "./ShopPage";
@@ -13,50 +15,65 @@ export class PageContainer extends Component {
     }
   }
 
+  updateCount() {
+    axios.get('/api/cart/count')
+      .then((response) => {
+        this.setState({
+          cartProductsCount: response.data.count
+        });
+      })
+  }
+
+  componentDidMount() {
+    this.updateCount();
+  }
+
   addProductToCart(idProduct) {
     axios.put('/api/cart', {
       product_id: idProduct,
       count: 1
     })
       .then(() => {
-        return axios.get('/api/cart/count')
-      })
-      .then(response => {
-        this.setState({
-          cartProductCount: response.data.count
-        });
-      })
+        this.updateCount();
+      });
   }
 
   //onDeleteCallback
   deleteProductById(productId, functionUpdate) {
     axios.delete(`/api/cart/${productId}`)
       .then(() => {
-      axios.get('/api/cart')
-        .then(() => {
-          functionUpdate();
-        })
-    })
+        axios.get('/api/cart')
+          .then(() => {
+            functionUpdate();
+            this.updateCount();
+          })
+      })
   }
 
 
   render() {
-    return(
+    return (
       <div className='wrapper'>
-        <Header count={this.state.cartProductCount}/>
+        <CountContext.Provider value={this.state.cartProductsCount}>
+          <Header/>
 
-        <CartPage onDeleteProduct={(productId, functionUpdate) => this.deleteProductById(productId, functionUpdate)}/>
+          <DeleteContext.Provider value={(productId, functionUpdate) => this.deleteProductById(productId, functionUpdate)}>
+            <CartPage />
+          </DeleteContext.Provider>
+        </CountContext.Provider>
       </div>
     )
   }
-
-  // render() {
-  //   return(
-  //     <div className='wrapper'>
-  //       <Header count={this.state.cartProductCount}/>
-  //
-  //       <ShopPage onProductAddedToCart={(idProduct) => this.addProductToCart(idProduct)}/>
-  //     </div>
-  //   )
-  // }
 }
+
+//   render() {
+//     return(
+//       <div className='wrapper'>
+//         <CountContext.Provider value={this.state.cartProductsCount}>
+//           <Header/>
+//         </CountContext.Provider>
+//           <ShopPage onProductAddedToCart={(idProduct) => this.addProductToCart(idProduct)}/>
+//       </div>
+//     )
+//   }
+// }
