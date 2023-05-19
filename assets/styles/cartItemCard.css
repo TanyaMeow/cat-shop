@@ -82,6 +82,15 @@
     border-radius: 50%;
 }
 
+.minus:hover,
+.plus:hover {
+    content: '';
+    cursor: pointer;
+    background-color: #ff5f2e;
+    border: #ff5f2e;
+    transition: 0.3s;
+}
+
 .min,
 .max {
     width: 20px;
